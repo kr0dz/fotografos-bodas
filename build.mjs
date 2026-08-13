@@ -5,3 +5,4 @@ const data=names.map((name)=>readFileSync(name,'utf8').trim()).join('');
 writeFileSync('site.tar.gz',Buffer.from(data,'base64'));
 mkdirSync('dist',{recursive:true});
 execFileSync('tar',['-xzf','site.tar.gz','-C','dist'],{stdio:'inherit'});
+await import('./patch-menu.mjs');
