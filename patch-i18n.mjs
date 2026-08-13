@@ -113,3 +113,12 @@ const indexable=[
 const urls=[...indexable,...indexable.map(u=>u==='/'?'/en/':'/en'+u)];
 const sitemap=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u=>`<url><loc>${base}${u}</loc></url>`).join('\n')}\n</urlset>\n`;
 writeFileSync(join(root,'sitemap.xml'),sitemap);
+
+const enFixes={
+  'Fotografía editorial, documental y video para bodas en San Miguel de Allende.':'Editorial and documentary wedding photography and film in San Miguel de Allende.',
+  'Editorial + documental':'Editorial + documentary',
+  'Santi & Clau — Historia editorial de inspiración':'Santi & Clau — Editorial inspiration story',
+  'Fotografía de bodas en San Miguel de Allende':'Wedding photography in San Miguel de Allende',
+  '<span>Fotógrafos Bodas</span>':'<span>Wedding Photographers</span>'
+};
+for(const file of walk(join(root,'en')).filter(f=>f.endsWith('.html'))){let s=readFileSync(file,'utf8');for(const [a,b] of Object.entries(enFixes))s=s.split(a).join(b);writeFileSync(file,s)}
