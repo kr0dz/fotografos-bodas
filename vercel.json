@@ -1,4 +1,8 @@
 {
   "outputDirectory": "dist",
-  "trailingSlash": true
+  "trailingSlash": true,
+  "alias": [
+    "www.fotografosbodas.com.mx",
+    "fotografosbodas.com.mx"
+  ]
 }
