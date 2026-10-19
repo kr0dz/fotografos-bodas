@@ -29,7 +29,7 @@ const contextualMessages={
 
 [BODAS · PORTFOLIO]`
 };
-const wa=m=>`https://wa.me/447915374776?text=${encodeURIComponent(m).replace(/'/g,'%27')}`;
+const wa=m=>'#';
 
 function replaceAllTranslations(s){
   for(const [from,to] of Object.entries(translations).sort((a,b)=>b[0].length-a[0].length)) s=s.split(from).join(to);
@@ -79,7 +79,7 @@ for(const file of spanishFiles){
   enHtml=patchEnglishSelector(enHtml,es,en);
 
   if(contextualMessages[rel]){
-    enHtml=enHtml.replace(/href="https:\/\/wa\.me\/447915374776\?text=[^"]+"/g,`href="${wa(contextualMessages[rel])}"`);
+    enHtml=enHtml.replace(/href="https:\/\/wa\.me\/\?text=[^"]+"/g,`href="${wa(contextualMessages[rel])}"`);
   }
 
   const out=join(root,'en',rel);
@@ -89,12 +89,12 @@ for(const file of spanishFiles){
 
 // Make the shared JS language-aware without changing Spanish behavior.
 let js=readFileSync(join(root,'script.js'),'utf8');
-const waEs='https://wa.me/447915374776?text=%C2%A1Hola%21%20%F0%9F%91%8B%20Estoy%20buscando%20informaci%C3%B3n%20sobre%20fotograf%C3%ADa%20para%20mi%20boda%20en%20San%20Miguel%20de%20Allende.%20Me%20gustar%C3%ADa%20conocer%20las%20opciones%20disponibles.%20%F0%9F%92%8D%F0%9F%93%B8%0A%0A%5BBODAS%5D';
+const waEs='#';
 const waEn=wa(`Hello! 👋 I'm looking for information about wedding photography for my wedding in San Miguel de Allende. I'd like to learn about the available options. 💍📸
 
 [BODAS]`);
 js=js.replace(/const WA_GENERAL='[^']+';/,`const WA_GENERAL_ES=${JSON.stringify(waEs)},WA_GENERAL_EN=${JSON.stringify(waEn)},IS_EN=document.documentElement.lang==='en',WA_GENERAL=IS_EN?WA_GENERAL_EN:WA_GENERAL_ES;`);
-const formHandler=`const f=document.querySelector('[data-quote-form]'); if(f) f.addEventListener('submit',e=>{e.preventDefault();const d=new FormData(f);const msg=IS_EN?\`Hello! 👋 I'd like to inquire about wedding photography in San Miguel de Allende.\\n\\nName: \${d.get('name')||'-'}\\nDate: \${d.get('date')||'-'}\\nVenue: \${d.get('venue')||'-'}\\nCoverage: \${d.get('coverage')||'-'}\\nDetails: \${d.get('details')||'-'}\\n\\n[BODAS · FORM]\`:\`¡Hola! 👋 Quiero cotizar fotografía para mi boda en San Miguel de Allende.\\n\\nNombre: \${d.get('name')||'-'}\\nFecha: \${d.get('date')||'-'}\\nVenue: \${d.get('venue')||'-'}\\nCobertura: \${d.get('coverage')||'-'}\\nDetalles: \${d.get('details')||'-'}\\n\\n[BODAS · FORMULARIO]\`;window.open('https://wa.me/447915374776?text='+encodeURIComponent(msg),'_blank','noopener')});`;
+const formHandler=`const f=document.querySelector('[data-quote-form]'); if(f) f.addEventListener('submit',e=>{e.preventDefault();const d=new FormData(f);const msg=IS_EN?\`Hello! 👋 I'd like to inquire about wedding photography in San Miguel de Allende.\\n\\nName: \${d.get('name')||'-'}\\nDate: \${d.get('date')||'-'}\\nVenue: \${d.get('venue')||'-'}\\nCoverage: \${d.get('coverage')||'-'}\\nDetails: \${d.get('details')||'-'}\\n\\n[BODAS · FORM]\`:\`¡Hola! 👋 Quiero cotizar fotografía para mi boda en San Miguel de Allende.\\n\\nNombre: \${d.get('name')||'-'}\\nFecha: \${d.get('date')||'-'}\\nVenue: \${d.get('venue')||'-'}\\nCobertura: \${d.get('coverage')||'-'}\\nDetalles: \${d.get('details')||'-'}\\n\\n[BODAS · FORMULARIO]\`;void msg});`;
 js=js.replace(/const f=document\.querySelector\('\[data-quote-form\]'\);[\s\S]*$/,formHandler);
 writeFileSync(join(root,'script.js'),js);
 
